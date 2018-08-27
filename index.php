@@ -73,7 +73,7 @@ foreach ($events as $event) {
 
     //入力された診療科から診療科コードを取得
     $section_id = 0;
-    if ($SectionName=='内科'){
+    if ($SectionName=='総合内科'){
       $section_id = 2;
     } elseif ($SectionName=='消化器内科') {
       $section_id = 4;
@@ -119,8 +119,8 @@ foreach ($events as $event) {
 
       //$jsonString = file_get_contents('http://35.190.234.51/displaybd/db/last/0000000001/' . $section_id . '/20180507/000000/' . $reqtime);
       //$jsonString = file_get_contents('https://primearch.jp/displaybd/db/last/0000000001/' . $section_id . '/20180507/000000/' . $reqtime);
-      $jsonString = file_get_contents('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000/' . $reqtime . '?name=' . base64_encode($SectionName));
-      error_log('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000/' . $reqtime . '?name=' . base64_encode($SectionName));
+      $jsonString = file_get_contents('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000?name=' . base64_encode($SectionName));
+      error_log('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000/?name=' . base64_encode($SectionName));
         
       // 文字列を連想配列に変換
       $obj = json_decode($jsonString, true);
@@ -146,7 +146,8 @@ foreach ($events as $event) {
       // アクションの配列
       //$suggestArray = array('内科','外科','整形');
       //$suggestArray = array('内科','消化器内科','神経内科','腎臓内科','小児科','外科','形成外科','整形外科','皮膚科','泌尿器科','産婦人科','眼科','耳鼻科','歯科口腔外科');
-      $suggestArray = array('内科','消化器内科','小児科','外科');
+      //$suggestArray = array('内科','消化器内科','小児科','外科');
+      $suggestArray = array('総合内科','神経内科','小児科','外科');
       $actionArray = array();
       //候補を全てアクションにして追加
       foreach($suggestArray as $secname) {
