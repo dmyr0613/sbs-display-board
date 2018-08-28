@@ -70,13 +70,43 @@ foreach ($events as $event) {
     $bot->replyText($event->getReplyToken(), $messageStr);
 
   } elseif($SectionName == '診療科を選択') {
+
+    // Carouselテンプレートメッセージを返信
+    // ダイアログの配列
+    $columnArray = array();
+    $colCnt = 0;
+    $CarouselNum = 1;
+
     $jsonString = file_get_contents('https://primearch.jp/displaybd/db/departments/0000000001');
     // 文字列を連想配列に変換
     $obj = json_decode($jsonString, true);
     foreach ($obj as $key => $val){
-      error_log($key);
       error_log($val["name"]);
+
+      //変数インクリメント
+      $colCnt++;
+      if $colCnt = 1 {
+        //最初の列定義
+        $actionArray = array();
+      }
+      if $colCnt <= 3 {
+        array_push($actionArray, new LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder ($val["name"],$val["name"]));
+      }
+      if $colCnt = 3 {
+        //最後の列定義
+        $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+          '診療科選択' . $CarouselNum, '診療科を選択してください。', null, $actionArray);
+        // 配列に追加
+        array_push($columnArray, $column);
+        //変数初期化
+        $colCnt = 0;
+        //Carousel番号の変数インクリメント
+        $CarouselNum++;
+      }
     }
+    //選択メニュー表示
+    replyCarouselTemplate($bot, $event->getReplyToken(),'診療科選択', $columnArray);
+
   } else {
 
     //入力された診療科から診療科コードを取得
