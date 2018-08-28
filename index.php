@@ -104,6 +104,16 @@ foreach ($events as $event) {
         $CarouselNum++;
       }
     }
+
+    //途中でLOOPを抜けた
+    if ($colCnt < 3) {
+      //最後の列定義
+      $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
+        '診療科選択' . $CarouselNum, '診療科を選択してください。', null, $actionArray);
+      // 配列に追加
+      array_push($columnArray, $column);
+    }
+
     //選択メニュー表示
     replyCarouselTemplate($bot, $event->getReplyToken(),'診療科選択', $columnArray);
 
