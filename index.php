@@ -106,7 +106,7 @@ foreach ($events as $event) {
     }
 
     //途中でLOOPを抜けた
-    if ($colCnt < 3) {
+    if (($colCnt > 0) and ($colCnt < 3)) {
       //最後の列定義
       $column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder (
         '診療科選択' . $CarouselNum, '診療科を選択してください。', null, $actionArray);
