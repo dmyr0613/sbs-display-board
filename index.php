@@ -69,6 +69,14 @@ foreach ($events as $event) {
     $messageStr = $messageStr . "\r\n" . 'http://www.sbs-infosys.co.jp/';
     $bot->replyText($event->getReplyToken(), $messageStr);
 
+  } elseif($SectionName == '診療科を選択') {
+    $jsonString = file_get_contents('https://primearch.jp/displaybd/db/departments/0000000001');
+    // 文字列を連想配列に変換
+    $obj = json_decode($jsonString, true);
+    foreach ($obj as $key => $val){
+      error_log($key);
+      error_log($val["name"]);
+    }
   } else {
 
     //入力された診療科から診療科コードを取得
@@ -121,7 +129,7 @@ foreach ($events as $event) {
       //$jsonString = file_get_contents('https://primearch.jp/displaybd/db/last/0000000001/' . $section_id . '/20180507/000000/' . $reqtime);
       $jsonString = file_get_contents('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000/' . $reqtime . '?name=' . base64_encode($SectionName));
       error_log('https://primearch.jp/displaybd/db/last/0000000001/1/20180507/000000/' . $reqtime . '?name=' . base64_encode($SectionName));
-        
+
       // 文字列を連想配列に変換
       $obj = json_decode($jsonString, true);
       $messageStr = $SectionName . 'の診察状況';
